@@ -64,7 +64,7 @@ private:
 	QTimer        *m_timer;
 	unsigned char *m_buttons;
 	quint32       *m_buttonTimes;
-	QString       m_devicePath;
+	QString        m_devicePath;
 
 public:
 	bool         hasDevice()        { return (m_dev != NULL); }; // && m_dev->Handle != 0
@@ -80,6 +80,8 @@ public:
 
     QString      getProductString();
     QString      getManufacturerString();
+
+    bool         isButtonDown(int num);
 
 	// keyboard reflector
 	void sendKeyboardMsg(unsigned char modifier, unsigned char hc1, unsigned char hc2, unsigned char hc3,
@@ -112,7 +114,9 @@ signals:
 	void errorEvent(unsigned int  status);
 	void  dataEvent(unsigned char *pData);
 	
+	void buttonDown(unsigned int number);
 	void buttonDown(unsigned int number, quint32 timeStamp);
+	void   buttonUp(unsigned int number);
 	void   buttonUp(unsigned int number, quint32 timeStmap);
 	void   buttonUp(unsigned int number, quint32 timeStmap, quint32 pressDuration);
 

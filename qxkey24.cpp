@@ -186,6 +186,23 @@ QXKey24::handleErrorEvent(unsigned int deviceID, unsigned int status)
 
 
 // Public:
+bool
+QXKey24::isButtonDown(int num)
+{
+	if(!hasDevice() || isNotButtonNumber(num)) {
+		return false;
+	}
+	int col = 3+ num / 8; // button data stored in 3,4,5,6
+	int row = num % 8;
+	int bit = 1 << row;
+	
+	bool isdown = (m_buttons[col] & bit) > 0;
+
+	return isdown;
+}
+
+
+// Public:
 void
 QXKey24::sendKeyboardMsg(unsigned char modifier, unsigned char hc1, unsigned char hc2, unsigned char hc3,
 												 unsigned char hc4, unsigned char hc5, unsigned char hc6)
@@ -361,6 +378,7 @@ QXKey24::processButtons(unsigned char *pData)
 				quint32 time = dataToTime(pData);
 				m_buttonTimes[i*6+j] = time;
 				
+				emit buttonDown(j+i*rows);
 				emit buttonDown(j+i*rows, time);
 			}
 			if( !isdown && wasdown ) {
@@ -368,6 +386,7 @@ QXKey24::processButtons(unsigned char *pData)
 				quint32 duration = time - m_buttonTimes[i*6+j];
 				m_buttonTimes[i*6+j] = 0;
 				
+				emit buttonUp(j+i*rows);
 				emit buttonUp(j+i*rows, time);
 				emit buttonUp(j+i*rows, time, duration);
 			}
