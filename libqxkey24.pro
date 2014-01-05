@@ -1,5 +1,4 @@
 QT -= gui
-QT += dbus
 
 TARGET = qxkey24
 TEMPLATE = lib

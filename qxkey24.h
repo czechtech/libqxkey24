@@ -8,7 +8,6 @@
 #include <QDebug>
 #include <QMap>
 #include <QTimer>
-#include <QtDBus/QDBusConnection>
 #include <PieHid32.h>
 
 #define XK24_PID1 0x0405
@@ -66,7 +65,6 @@ private:
 	unsigned char  *m_buttons;
 	quint32        *m_buttonTimes;
 	QString         m_devicePath;
-	QDBusConnection m_dbus;
 
 public:
 	bool         hasDevice()        { return (m_dev != NULL); }; // && m_dev->Handle != 0
@@ -99,7 +97,6 @@ public:
 
 
 public slots:
-	void busDeviceRemoved(QString dev);
 	void queryForDevice();
 
 	void setBacklightIntensity(float blueBrightness, float redBrightness);

@@ -3,7 +3,7 @@
 QXKey24 *g_x_key_24; // HACK
 
 QXKey24::QXKey24(QObject* parent)
-	: QObject(parent), m_dbus( QDBusConnection::connectToBus( QDBusConnection::SystemBus, "system" ) )
+	: QObject(parent)
 {
 	g_x_key_24 = this; // HACK
 	
@@ -21,11 +21,6 @@ QXKey24::QXKey24(QObject* parent)
 	
 	// Listen for USB Device List changes: http://www.qtforum.org/article/27807/problem-in-connecting-to-deviceadded-signal.html
 	// Or, use SYSFS: http://www.signal11.us/oss/udev/ -- "libudev - Monitoring Interface"
-	m_dbus.connect("org.freedesktop.Hal",
-					"/org/freedesktop/Hal/Manager",
-					"org.freedesktop.Hal.Manager",
-					"DeviceRemoved",
-					this, SLOT(busDeviceRemoved(QString)));
 }
 
 
@@ -42,16 +37,6 @@ QXKey24::~QXKey24()
 	delete m_buttons;
 	delete m_buttonTimes;
 	delete m_timer;
-}
-
-
-// Slot:
-void
-QXKey24::busDeviceRemoved(QString dev)
-{
-	// DJC: can dev and m_devicePath be compared?
-	qDebug() << "QXKeys: Some Device Removed" << dev << endl;
-	queryForDevice();
 }
 
 
