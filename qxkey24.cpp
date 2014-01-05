@@ -68,7 +68,7 @@ QXKey24::queryForDevice()
 		qDebug() << "QXKeys: Device Disconnected from " << m_devicePath;
 		m_dev = NULL;
 		m_devicePath = "";
-		m_timer->setInterval(500);
+		m_timer->start(500);
 		
 		emit panelDisconnected();
 	}
